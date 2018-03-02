@@ -194,19 +194,21 @@ func main() {
 		fmt.Printf("Service %q created\n", createdService.Name)
 	}
 
+	// Get the port number by service's name
+	runningService, err := servicesClient.Get(service.Name, metav1.GetOptions{})
+	if err != nil {
+		panic(err)
+	}
+
 	// Get Pod "kube-addon-manager-minikube" of "kube-system" to retrieve 'minikube ip'
 	//
 	// Only valid for a minikube environment
 	//
 	pod, err := clientset.CoreV1().Pods("kube-system").Get("kube-addon-manager-minikube", metav1.GetOptions{})
 	if err != nil {
-		panic(err)
+		fmt.Printf("\nInfo: %s", err)
+		fmt.Printf("\nPlease help yourself and view: http://<ip-address>:%v\n\n", runningService.Spec.Ports[0].NodePort)
+	} else {
+		fmt.Printf("\nPlease view: http://%s:%v\n\n", pod.Status.HostIP, runningService.Spec.Ports[0].NodePort)
 	}
-
-	// Get the port number by service's name
-	runningService, err := servicesClient.Get(service.Name, metav1.GetOptions{})
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("\nPlease view: http://%s:%v\n\n", pod.Status.HostIP, runningService.Spec.Ports[0].NodePort)
 }

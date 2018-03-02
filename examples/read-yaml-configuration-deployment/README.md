@@ -20,7 +20,9 @@ This example program demonstrates a classical use case "a deployment exposed by 
 
 9. Show exposed <ip-address>:<port number> (only for minikube installation)
 
-You can adopt the source code from this example to write programs that manage
+You can play with different specifications to see updates. Or delete resources to test how creating
+and updating works together.
+You can, as well, adopt the source code from this example to write programs that manage
 other types of resources through the Kubernetes API.
 
 ## Running this example
@@ -53,52 +55,36 @@ Now, run this application on your workstation with your local kubeconfig file:
 >   (optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
 >
 
-Running this command will execute the following operations on your cluster:
-
-1. **Create Deployment:** This will create a 2 replica Deployment. Verify with
-   `kubectl get pods`.
-2. **Update Deployment:** This will update the Deployment resource created in
-   previous step by setting the replica count to 1 and changing the container
-   image to `nginx:1.13`. You are encouraged to inspect the retry loop that
-   handles conflicts. Verify the new replica count and container image with
-   `kubectl describe deployment demo`.
-3. **Rollback Deployment:** This will rollback the Deployment to the last
-   revision. In this case, it's the revision that was created in Step 1.
-   Use `kubectl describe` to verify the container image is now `nginx:1.12`.
-   Also note that the Deployment's replica count is still 1; this is because a
-   Deployment revision is created if and only if the Deployment's pod template
-   (`.spec.template`) is changed.
-4. **List Deployments:** This will retrieve Deployments in the `default`
-   namespace and print their names and replica counts.
-5. **Delete Deployment:** This will delete the Deployment object and its
-   dependent ReplicaSet resource. Verify with `kubectl get deployments`.
-
-Each step is separated by an interactive prompt. You must hit the
-<kbd>Return</kbd> key to proceeed to the next step. You can use these prompts as
-a break to take time to  run `kubectl` and inspect the result of the operations
-executed.
-
 You should see an output like the following:
 
 ```
-Creating deployment...
-Created deployment "demo-deployment".
--> Press Return key to continue.
+Create deployment "nginx-deployment"
+Deployment "nginx-deployment" created
 
-Updating deployment...
-Updated deployment...
--> Press Return key to continue.
+Create service "nginx"
+Service "nginx" created
 
-Rolling back deployment...
-Rolled back deployment...
--> Press Return key to continue.
+Please view: http://192.168.99.100:30001
 
-Listing deployments in namespace "default":
- * demo-deployment (1 replicas)
--> Press Return key to continue.
+```
 
-Deleting deployment...
-Deleted deployment.
+or
+
+```
+Create deployment "nginx-deployment"
+Info: deployments.apps "nginx-deployment" already exists
+
+Update deployment "nginx-deployment"
+Deployment "nginx-deployment" updated
+
+Create service "nginx"
+Info: Service "nginx" is invalid: spec.ports[0].nodePort: Invalid value: 30001: provided port is already allocated
+
+Update service "nginx"
+Service "nginx-deployment" updated
+
+Please view: http://192.168.99.100:30001
+
 ```
 
 ## Cleanup
