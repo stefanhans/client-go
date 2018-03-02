@@ -97,6 +97,10 @@ You can clean up the created deployment and service with:
 Accordingly, using other used YAML configuration and kubeconfig file, respectively.
 
 
+## ToDos
+
+- [ ] Overcome limitations for specification size of deployment (2048) and service (1024)
+- [ ] Update to newest k8s version
 
 
 
