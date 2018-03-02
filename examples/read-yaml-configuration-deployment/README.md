@@ -1,24 +1,24 @@
 # Reads the Specifications of one Deployment and one Service from a YAML File and Acts Accordingly
 
-This example program demonstrates a classical use case by doing the following:
+This example program demonstrates a classical use case "a deployment exposed by a service" by doing the following:
 
-1. read a YAML file with one deployment and one related service (default: configuration.yaml)
+1. Read a YAML file with one deployment and one related service (default: configuration.yaml)
 
-2. split it in k8s resources
+2. Split it in k8s resources
 
-3. decode deployment from YAML to JSON
+3. Decode deployment from YAML to JSON
 
-4. unmarshall deployment from JSON to k8s resource
+4. Unmarshall deployment from JSON to k8s resource
 
-5. try to create the deployment, and update it, if creation failed
+5. Try to create the deployment, and update it, if creation failed
 
-6. decode service from YAML to JSON
+6. Decode service from YAML to JSON
 
-7. unmarshall service from JSON to k8s resource
+7. Unmarshall service from JSON to k8s resource
 
-8. try to create the service, and update it, if creation failed
+8. Try to create the service, and update it, if creation failed
 
-9. show exposed <ip-address>:<port number> (only for minikube installation)
+9. Show exposed <ip-address>:<port number> (only for minikube installation)
 
 You can adopt the source code from this example to write programs that manage
 other types of resources through the Kubernetes API.
