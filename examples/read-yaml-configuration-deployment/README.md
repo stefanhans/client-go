@@ -50,7 +50,7 @@ Now, run this application on your workstation with your local kubeconfig file:
 >
 >   -kubeconfig string
 >
->       (optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
+>   (optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
 >
 
 Running this command will execute the following operations on your cluster:
