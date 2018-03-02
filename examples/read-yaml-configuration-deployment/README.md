@@ -49,7 +49,7 @@ Now, run this application on your workstation with your local kubeconfig file:
 >
 >   -f string
 >
->   absolute path to the YAML configuration file (default "configuration.yaml")
+>   (optional) absolute path to the YAML configuration file (default "configuration.yaml")
 >
 >   -kubeconfig string
 >

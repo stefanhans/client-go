@@ -55,7 +55,7 @@ func main() {
 	// Specify another YAML configuration file than "./configuration.yaml"
 	//
 	var yamlfilename *string
-	yamlfilename = flag.String("f", "configuration.yaml", "absolute path to the YAML configuration file")
+	yamlfilename = flag.String("f", "configuration.yaml", "(optional) absolute path to the YAML configuration file")
 
 	// Parse commandline parameters
 	flag.Parse()
