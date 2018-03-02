@@ -55,7 +55,7 @@ Now, run this application on your workstation with your local kubeconfig file:
 >   (optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
 >
 
-You should see an output like the following:
+You should see outputs like the following:
 
 ```
 Create deployment "nginx-deployment"
