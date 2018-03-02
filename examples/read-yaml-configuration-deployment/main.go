@@ -40,6 +40,9 @@ import (
 func main() {
 
 	// Flag "--kubeconfig <kubeconfig-file>"
+	//
+	// Specify another kubeconfig file than "~/.kube/config"
+	//
 	var kubeconfig *string
 	if home := homedir.HomeDir(); home != "" {
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
@@ -48,6 +51,9 @@ func main() {
 	}
 
 	// Flag "-f <yaml-file>"
+	//
+	// Specify another YAML configuration file than "./configuration.yaml"
+	//
 	var yamlfilename *string
 	yamlfilename = flag.String("f", "configuration.yaml", "absolute path to the YAML configuration file")
 
@@ -70,7 +76,6 @@ func main() {
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 
 	// Read first resource - expecting deployment with size < 2048
-	// TODO: handle size expectations programmatically
 	yamlDeployment := make([]byte, 2048)
 	_, err = yamlDecoder.Read(yamlDeployment)
 	if err != nil {
@@ -105,7 +110,6 @@ func main() {
 	}
 
 	// Read second resource - expecting service with size < 1024
-	// TODO: handle size expectations programmatically
 	yamlService := make([]byte, 1024)
 	_, err = yamlDecoder.Read(yamlService)
 	if err != nil {
@@ -157,38 +161,43 @@ func main() {
 	servicesClient := clientset.CoreV1().Services(corev1.NamespaceDefault)
 
 	// create deployment - try update on error
+	fmt.Printf("Create deployment %q\n", deployment.Name)
 	createdDeployment, err := deploymentsClient.Create(&deployment)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Info: %s\n\n", err)
 
 		// update deployment
+		fmt.Printf("Update deployment %q\n", deployment.Name)
 		updatedDeployment, err := deploymentsClient.Update(&deployment)
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println("Deployment updated")
-		fmt.Printf("Watch out for all Pods of %q running...\n", updatedDeployment.Name)
+		fmt.Printf("Deployment %q updated\n\n", updatedDeployment.Name)
 	} else {
+		fmt.Printf("Deployment %q created\n\n", createdDeployment.Name)
+	}
 
-		fmt.Println("Deployment created")
-		fmt.Printf("Watch out for all Pods of %q running...\n", createdDeployment.Name)
+	// create service - try update on error
+	fmt.Printf("Create service %q\n", service.Name)
+	createdService, err := servicesClient.Create(&service)
+	if err != nil {
+		fmt.Printf("Info: %s\n\n", err)
 
-		// create service - try update on error
-		createdService, err := servicesClient.Create(&service)
+		// update service
+		fmt.Printf("Update service %q\n", service.Name)
+		updatedService, err := deploymentsClient.Update(&deployment)
 		if err != nil {
-			fmt.Println(err)
-
-			// update service
-			updatedService, err := deploymentsClient.Update(&deployment)
-			if err != nil {
-				panic(err)
-			}
-			fmt.Printf("Service %q updated\n", updatedService.Name)
+			panic(err)
 		}
+		fmt.Printf("Service %q updated\n", updatedService.Name)
+	} else {
 		fmt.Printf("Service %q created\n", createdService.Name)
 	}
 
 	// Get Pod "kube-addon-manager-minikube" of "kube-system" to retrieve 'minikube ip'
+	//
+	// Only valid for a minikube environment
+	//
 	pod, err := clientset.CoreV1().Pods("kube-system").Get("kube-addon-manager-minikube", metav1.GetOptions{})
 	if err != nil {
 		panic(err)
