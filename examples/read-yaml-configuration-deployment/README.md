@@ -1,4 +1,4 @@
-# Reads the Specifications of one Deployment and one Service from a YAML File and Acts Accordingly
+# Reads the Specifications of one Deployment and one Service from a YAML File and Create and/or Update Accordingly
 
 This example program demonstrates a classical use case "a deployment exposed by a service" by doing the following:
 
