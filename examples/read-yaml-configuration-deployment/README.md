@@ -10,15 +10,15 @@ This example program demonstrates a classical use case "a deployment exposed by 
 
 4. Unmarshall deployment from JSON to k8s resource
 
-5. Try to create the deployment, and update it, if creation failed
+5. Try to create the deployment, and try to update it, if creation failed
 
 6. Decode service from YAML to JSON
 
 7. Unmarshall service from JSON to k8s resource
 
-8. Try to create the service, and update it, if creation failed
+8. Try to create the service, and try to update it, if creation failed
 
-9. Show exposed <ip-address>:<port number> (only for minikube installation)
+9. Show exposed \<ip-address>:\<port number> (only for minikube installation)
 
 You can play with different specifications to see updates. Or delete resources to test how creating
 and updating works together.
