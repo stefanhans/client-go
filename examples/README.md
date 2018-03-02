@@ -14,7 +14,7 @@ for client-go.
 
 - [**Managing resources with API**](./create-update-delete-deployment): Create,
   get, update, delete a Deployment resource.
-- [**Reading the resource specifications from YAML file**](./read-yaml-configuration-deployment):
+- [**Reading specified resources from YAML file**](./read-yaml-configuration-deployment):
   Read the specifications of one deployment and one service from a YAML file and act accordingly.
 
 ### Advanced Concepts
