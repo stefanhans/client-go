@@ -22,6 +22,7 @@ This example program demonstrates a classical use case "a deployment exposed by 
 
 You can play with different specifications to see updates. Or delete resources to test how creating
 and updating works together.
+
 You can, as well, adopt the source code from this example to write programs that manage
 other types of resources through the Kubernetes API.
 
