@@ -40,14 +40,13 @@ Now, run this application on your workstation with your local kubeconfig file:
 
 ```
 ./app
-
 ```
 
-Usage of ./app:
-  -f string
-    	absolute path to the YAML configuration file (default "configuration.yaml")
-  -kubeconfig string
-    	(optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
+> Usage of ./app:
+>   -f string
+>     	absolute path to the YAML configuration file (default "configuration.yaml")
+>   -kubeconfig string
+>     	(optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
 
 Running this command will execute the following operations on your cluster:
 
