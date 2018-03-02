@@ -1,7 +1,22 @@
 # Reads the Specifications of one Deployment and one Service from a YAML File and Act Accordingly
 
-This example program demonstrates the fundamental operations for managing on
-[Deployment][1] resources, such as `Create`, `List`, `Update` and `Delete`.
+This example program demonstrates a classical use case by doing the following:
+
+- read a YAML file with one deployment and one related service
+
+- split it in k8s resources
+
+- decode deployment from YAML to JSON
+
+- unmarshall deployment from JSON to k8s resource
+
+- try to create the deployment, and update it, if creation failed
+
+- decode service from YAML to JSON
+
+- unmarshall service from JSON to k8s resource
+
+- try to create the service, and update it, if creation failed
 
 You can adopt the source code from this example to write programs that manage
 other types of resources through the Kubernetes API.
@@ -23,8 +38,12 @@ Now, run this application on your workstation with your local kubeconfig file:
 
 ```
 ./app
-# or specify a kubeconfig file with flag
-./app -kubeconfig=$HOME/.kube/config
+
+Usage of ./app:
+  -f string
+    	absolute path to the YAML configuration file (default "configuration.yaml")
+  -kubeconfig string
+    	(optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
 ```
 
 Running this command will execute the following operations on your cluster:
