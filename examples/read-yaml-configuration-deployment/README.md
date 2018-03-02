@@ -1,22 +1,24 @@
-# Reads the Specifications of one Deployment and one Service from a YAML File and Act Accordingly
+# Reads the Specifications of one Deployment and one Service from a YAML File and Acts Accordingly
 
 This example program demonstrates a classical use case by doing the following:
 
-- read a YAML file with one deployment and one related service
+1. read a YAML file with one deployment and one related service (default: configuration.yaml)
 
-- split it in k8s resources
+2. split it in k8s resources
 
-- decode deployment from YAML to JSON
+3. decode deployment from YAML to JSON
 
-- unmarshall deployment from JSON to k8s resource
+4. unmarshall deployment from JSON to k8s resource
 
-- try to create the deployment, and update it, if creation failed
+5. try to create the deployment, and update it, if creation failed
 
-- decode service from YAML to JSON
+6. decode service from YAML to JSON
 
-- unmarshall service from JSON to k8s resource
+7. unmarshall service from JSON to k8s resource
 
-- try to create the service, and update it, if creation failed
+8. try to create the service, and update it, if creation failed
+
+9. show exposed <ip-address>:<port number> (only for minikube installation)
 
 You can adopt the source code from this example to write programs that manage
 other types of resources through the Kubernetes API.
@@ -30,7 +32,7 @@ Make sure you have a Kubernetes cluster and `kubectl` is configured:
 Compile this example on your workstation:
 
 ```
-cd create-update-delete-deployment
+cd read-yaml-configuration-deployment
 go build -o ./app
 ```
 
@@ -39,12 +41,13 @@ Now, run this application on your workstation with your local kubeconfig file:
 ```
 ./app
 
+```
+
 Usage of ./app:
   -f string
     	absolute path to the YAML configuration file (default "configuration.yaml")
   -kubeconfig string
     	(optional) absolute path to the kubeconfig file (default "$HOME/.kube/config")
-```
 
 Running this command will execute the following operations on your cluster:
 
