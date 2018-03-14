@@ -69,32 +69,36 @@ func main() {
 		panic(err)
 	}
 
+	// Get size of file
+	fileInfo, err := reader.Stat()
+	if err != nil {
+		panic(err)
+	}
+	fileSize := fileInfo.Size()
+
+
 	// Split YAML into chunks or k8s resources, respectively
 	yamlDecoder := yaml.NewDocumentDecoder(ioutil.NopCloser(reader))
 
 	// Create decoding function used for YAML to JSON decoding
 	decode := scheme.Codecs.UniversalDeserializer().Decode
 
-	// Read first resource - expecting deployment with size < 2048
-	yamlDeployment := make([]byte, 2048)
+	// Read first resource
+	yamlDeployment := make([]byte, fileSize)
 	_, err = yamlDecoder.Read(yamlDeployment)
 	if err != nil {
 		panic(err)
 	}
 
 	// Trim unnecessary trailing 0x0 signs which are not accepted
-	TrimmedYamlDeployment := strings.TrimRight(string(yamlDeployment), string(byte(0)))
+	trimmedYamlDeployment := strings.TrimRight(string(yamlDeployment), string(byte(0)))
 
 	// Decode deployment resource from YAML to JSON
-	jsonDeployment, _, err := decode([]byte(TrimmedYamlDeployment), nil, nil)
+	jsonDeployment, groupVersionKind, err := decode([]byte(trimmedYamlDeployment), nil, nil)
 	if err != nil {
 		panic(err)
 	}
-
-	// Check "kind: deployment"
-	if jsonDeployment.GetObjectKind().GroupVersionKind().Kind != "Deployment" {
-		panic(fmt.Sprintf("\nError: Not \"Kind: Deployment\"\n%#v\n", jsonDeployment))
-	}
+	fmt.Printf("groupVersionKind.Group: %s, groupVersionKind.Kind: %s, groupVersionKind.Version: %s\n", groupVersionKind.Group, groupVersionKind.Kind, groupVersionKind.Version)
 
 	// Marshall JSON deployment
 	d, err := json.Marshal(&jsonDeployment)
@@ -109,25 +113,20 @@ func main() {
 		panic(err)
 	}
 
-	// Read second resource - expecting service with size < 1024
-	yamlService := make([]byte, 1024)
+	// Read second resource
+	yamlService := make([]byte, fileSize)
 	_, err = yamlDecoder.Read(yamlService)
 	if err != nil {
 		panic(err)
 	}
 
 	// Trim unnecessary trailing 0x0 signs which are not accepted
-	TrimmedYamlService := strings.TrimRight(string(yamlService), string(byte(0)))
+	trimmedYamlService := strings.TrimRight(string(yamlService), string(byte(0)))
 
 	// Decode service resource from YAML to JSON
-	jsonService, _, err := decode([]byte(TrimmedYamlService), nil, nil)
+	jsonService, _, err := decode([]byte(trimmedYamlService), nil, nil)
 	if err != nil {
 		panic(err)
-	}
-
-	// Check "kind: service"
-	if jsonService.GetObjectKind().GroupVersionKind().Kind != "Service" {
-		panic(fmt.Sprintf("Error: Not \"Kind: Service\"\n%#v\n", jsonService))
 	}
 
 	// Marshall JSON Service
